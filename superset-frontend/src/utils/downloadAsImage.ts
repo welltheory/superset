@@ -72,6 +72,11 @@ export default function downloadAsImage(
       .toJpeg(elementToPrint, {
         bgcolor: supersetTheme.colors.grayscale.light4,
         filter,
+        corsImg: {
+          url: '/img_proxy/?url=#{cors}',
+          method: 'GET',
+          data: '',
+        },
       })
       .then((dataUrl: string) => {
         const link = document.createElement('a');

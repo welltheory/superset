@@ -62,6 +62,7 @@ export default function downloadAsPdf(
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2 },
       excludeClassNames: ['header-controls'],
+      proxyUrl: '/img_proxy/?url=',
     };
     return domToPdf(elementToPrint, options)
       .then(() => {
