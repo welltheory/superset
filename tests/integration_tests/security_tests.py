@@ -1546,6 +1546,7 @@ class TestRolePermission(SupersetTestCase):
             # TODO (embedded) remove Dashboard:embedded after uuids have been shipped
             ["Dashboard", "embedded"],
             ["EmbeddedView", "embedded"],
+            ["ImgProxyView", "img_proxy"],
             ["R", "index"],
             ["Superset", "log"],
             ["Superset", "theme"],
