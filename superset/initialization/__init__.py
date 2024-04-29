@@ -315,7 +315,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_view_no_menu(TaggedObjectsModelView)
         appbuilder.add_view_no_menu(TagView)
         appbuilder.add_view_no_menu(ReportView)
-        appbuilder.add_view_no_menu(ImgProxyView())
+        appbuilder.add_view_no_menu(ImgProxyView)
 
         #
         # Add links
