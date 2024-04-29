@@ -64,6 +64,8 @@ class ImgProxyView(BaseSupersetView):
         if not response:
             abort(500)
 
+        assert response is not None
+
         content_type = response.headers.get("content-type", "")
 
         if not any(
