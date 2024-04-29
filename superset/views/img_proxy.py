@@ -102,7 +102,7 @@ class ImgProxyView(BaseSupersetView):
     def fetch_resource(self, url: str) -> requests.Response:
         """Fetch the resource from the external server and handle errors."""
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
             response.raise_for_status()
             return response
         except requests.RequestException as e:
