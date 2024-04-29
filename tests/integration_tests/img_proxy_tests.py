@@ -23,12 +23,11 @@ import requests
 from tests.integration_tests.base_tests import SupersetTestCase
 from tests.integration_tests.constants import ADMIN_USERNAME
 
+
 class ImgProxyViewTest(SupersetTestCase):
     def setUp(self):
         self.login(ADMIN_USERNAME)
-        self.headers = {
-            'Referer': 'http://localhost/'
-        }
+        self.headers = {"Referer": "http://localhost/"}
 
     def tearDown(self):
         super().tearDown()
@@ -43,7 +42,7 @@ class ImgProxyViewTest(SupersetTestCase):
         uri = f"img_proxy/?url="
         response = self.client.get(uri)
         assert response.status_code == 400
-        
+
     def test_img_proxy_invalid_url(self):
         uri = f"img_proxy/?url=fpt://example.com"
         response = self.client.get(uri)
@@ -51,9 +50,7 @@ class ImgProxyViewTest(SupersetTestCase):
 
     def test_img_proxy_invalid_referer(self):
         uri = f"img_proxy/?url=https://example.com"
-        headers = {
-            'Referer': 'http://maliciousdomain.com'
-        }
+        headers = {"Referer": "http://maliciousdomain.com"}
         response = self.client.get(uri, headers=headers)
         assert response.status_code == 403
 
@@ -61,11 +58,13 @@ class ImgProxyViewTest(SupersetTestCase):
         uri = f"img_proxy/?url=https://test.zyz.xyz"
         response = self.client.get(uri, headers=self.headers)
         assert response.status_code == 500
-    
+
     def test_img_proxy_invalid_resource_content(self):
-        with mock.patch('superset.views.img_proxy.ImgProxyView.fetch_resource') as mock_fetch_resource:
+        with mock.patch(
+            "superset.views.img_proxy.ImgProxyView.fetch_resource"
+        ) as mock_fetch_resource:
             mock_response = requests.Response()
-            mock_response._content = b'Mocked content'
+            mock_response._content = b"Mocked content"
             mock_response.status_code = 200
             mock_response.headers["content-type"] = "test/test"
             mock_fetch_resource.return_value = mock_response
@@ -75,10 +74,14 @@ class ImgProxyViewTest(SupersetTestCase):
             assert response.status_code == 400
 
     def test_img_proxy_valid_resource_content(self):
-        with mock.patch('superset.views.img_proxy.ImgProxyView.fetch_resource') as mock_fetch_resource:            
-            with mock.patch('superset.views.img_proxy.ImgProxyView.validate_image') as mock_validate_image:
+        with mock.patch(
+            "superset.views.img_proxy.ImgProxyView.fetch_resource"
+        ) as mock_fetch_resource:
+            with mock.patch(
+                "superset.views.img_proxy.ImgProxyView.validate_image"
+            ) as mock_validate_image:
                 mock_response = requests.Response()
-                mock_response._content = b'Mocked content'
+                mock_response._content = b"Mocked content"
                 mock_response.status_code = 200
                 mock_response.headers["content-type"] = "image/jpeg"
                 mock_fetch_resource.return_value = mock_response
