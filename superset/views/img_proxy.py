@@ -87,8 +87,6 @@ class ImgProxyView(BaseSupersetView):
             return False
         except OSError:
             abort(500)
-        except Exception:
-            abort(500)
 
     def fetch_resource(self, url: str) -> requests.Response:
         """Fetch the resource from the external server and handle errors."""

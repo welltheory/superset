@@ -33,29 +33,29 @@ class ImgProxyViewTest(SupersetTestCase):
         super().tearDown()
 
     def test_img_proxy_invalid_user_context(self):
-        uri = f"img_proxy/?url=https://example.com"
+        uri = "img_proxy/?url=https://example.com"
         self.logout()
         response = self.client.get(uri)
         assert response.status_code == 403
 
     def test_img_proxy_missing_url(self):
-        uri = f"img_proxy/?url="
+        uri = "img_proxy/?url="
         response = self.client.get(uri)
         assert response.status_code == 400
 
     def test_img_proxy_invalid_url(self):
-        uri = f"img_proxy/?url=fpt://example.com"
+        uri = "img_proxy/?url=fpt://example.com"
         response = self.client.get(uri)
         assert response.status_code == 400
 
     def test_img_proxy_invalid_referer(self):
-        uri = f"img_proxy/?url=https://example.com"
+        uri = "img_proxy/?url=https://example.com"
         headers = {"Referer": "http://maliciousdomain.com"}
         response = self.client.get(uri, headers=headers)
         assert response.status_code == 403
 
     def test_img_proxy_invalid_resource(self):
-        uri = f"img_proxy/?url=https://test.zyz.xyz"
+        uri = "img_proxy/?url=https://test.zyz.xyz"
         response = self.client.get(uri, headers=self.headers)
         assert response.status_code == 500
 
@@ -69,7 +69,7 @@ class ImgProxyViewTest(SupersetTestCase):
             mock_response.headers["content-type"] = "test/test"
             mock_fetch_resource.return_value = mock_response
 
-            uri = f"img_proxy/?url=https://example.com/image.jpg"
+            uri = "img_proxy/?url=https://example.com/image.jpg"
             response = self.client.get(uri, headers=self.headers)
             assert response.status_code == 400
 
@@ -87,7 +87,7 @@ class ImgProxyViewTest(SupersetTestCase):
                 mock_fetch_resource.return_value = mock_response
                 mock_validate_image.return_value = True
 
-                uri = f"img_proxy/?url=https://example.com/image.jpg"
+                uri = "img_proxy/?url=https://example.com/image.jpg"
                 response = self.client.get(uri, headers=self.headers)
 
                 assert response.status_code == 200
