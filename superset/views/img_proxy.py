@@ -59,11 +59,7 @@ class ImgProxyView(BaseSupersetView):
         ):
             abort(403)
 
-        try:
-            response = self.fetch_resource(url)
-        except Exception:
-            abort(500)
-
+        response = self.fetch_resource(url)
         content_type = response.headers.get("content-type", "")
 
         if not any(
@@ -72,16 +68,11 @@ class ImgProxyView(BaseSupersetView):
         ):
             abort(400)
 
-        try:
-            is_valid_image = self.validate_image(response.content)
-            if not is_valid_image:
-                abort(400)
-        except Exception:
-            abort(500)
+        is_valid_image = self.validate_image(response.content)
+        if not is_valid_image:
+            abort(400)
 
-        headers: dict[str, Any] = {
-            key: value for (key, value) in response.headers.items()
-        }
+        headers: dict[str, Any] = dict(response.headers.items())
 
         return Response(response.content, response.status_code, headers)
 
@@ -94,10 +85,10 @@ class ImgProxyView(BaseSupersetView):
                 if img.format:
                     return True
             return False
-        except OSError as e:
-            raise e
-        except Exception as e:
-            raise e
+        except OSError:
+            abort(500)
+        except Exception:
+            abort(500)
 
     def fetch_resource(self, url: str) -> requests.Response:
         """Fetch the resource from the external server and handle errors."""
@@ -105,5 +96,5 @@ class ImgProxyView(BaseSupersetView):
             response = requests.get(url, timeout=5)
             response.raise_for_status()
             return response
-        except requests.RequestException as e:
-            raise e
+        except requests.RequestException:
+            abort(500)
