@@ -76,7 +76,7 @@ class ImgProxyView(BaseSupersetView):
 
         return Response(response.content, response.status_code, headers)
 
-    def validate_image(self, image_content) -> bool:
+    def validate_image(self, image_content: bytes) -> bool:
         """
         Load the image from bytes, Pillow will raise an IOError if the file is not an image
         """
@@ -84,9 +84,10 @@ class ImgProxyView(BaseSupersetView):
             with Image.open(BytesIO(image_content)) as img:
                 if img.format:
                     return True
-            return False
         except OSError:
-            abort(500)
+            return False
+
+        return False
 
     def fetch_resource(self, url: str) -> requests.Response:
         """Fetch the resource from the external server and handle errors."""
@@ -95,4 +96,4 @@ class ImgProxyView(BaseSupersetView):
             response.raise_for_status()
             return response
         except requests.RequestException:
-            abort(500)
+            return abort(500)
