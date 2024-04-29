@@ -60,6 +60,10 @@ class ImgProxyView(BaseSupersetView):
             abort(403)
 
         response = self.fetch_resource(url)
+
+        if not response:
+            abort(500)
+
         content_type = response.headers.get("content-type", "")
 
         if not any(
@@ -89,11 +93,11 @@ class ImgProxyView(BaseSupersetView):
 
         return False
 
-    def fetch_resource(self, url: str) -> requests.Response:
+    def fetch_resource(self, url: str) -> requests.Response | None:
         """Fetch the resource from the external server and handle errors."""
         try:
             response = requests.get(url, timeout=5)
             response.raise_for_status()
             return response
         except requests.RequestException:
-            return abort(500)
+            return None
