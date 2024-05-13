@@ -16,8 +16,8 @@
 # under the License.
 from typing import TYPE_CHECKING
 
-from flask import current_app as app, redirect
-from flask_appbuilder import expose, SimpleFormView
+from flask import current_app as app
+from flask_appbuilder import expose
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder.security.decorators import has_access
 from flask_babel import lazy_gettext as _

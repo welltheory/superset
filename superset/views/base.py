@@ -41,7 +41,6 @@ from flask_appbuilder.security.decorators import (
     has_access_api,
     permission_name,
 )
-from flask_appbuilder.security.sqla.models import User
 from flask_appbuilder.widgets import ListWidget
 from flask_babel import gettext as __, lazy_gettext as _
 from flask_jwt_extended.exceptions import NoAuthorizationError

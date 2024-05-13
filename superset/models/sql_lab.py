@@ -69,7 +69,6 @@ from superset.utils.core import (
 
 # Import required for sqlalchemy's order of operations
 from superset.tags.models import TaggedObject  # pylint: disable=unused-import # noqa
-from superset.utils.core import get_column_name, MediumText, QueryStatus, user_label
 
 if TYPE_CHECKING:
     from superset.connectors.sqla.models import TableColumn
