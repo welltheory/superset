@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 from typing import Optional
+import warnings
 
 import pandas as pd
 from flask_babel import gettext as _
@@ -81,5 +82,7 @@ def compare(  # pylint: disable=too-many-arguments
         df = pd.concat([df, diff_df], axis=1)
 
     if drop_original_columns:
-        df = df.drop(source_columns + compare_columns, axis=1)
+        # we don't need to log performance warnings here
+        with warnings.catch_warnings():
+            df = df.drop(source_columns + compare_columns, axis=1)
     return df
